@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { ApplicationContext } from "../../App";
+import { getUsers } from "../../services";
 
-import {getAllUsers} from "../service";
-
-const users = getAllUsers().then(response => response);
-console.log(users);
+const months: string[] = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,20 +33,27 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function NativeSelects(): JSX.Element {
+export const MonthSelect: React.FC = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState<{ month: string | number; name: string }>({
-    month: 0,
-    name: '',
-  });
 
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-    const name = event.target.name as keyof typeof state;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+  const {state, dispatch} = useContext(ApplicationContext);
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
+    const selectedMonthValue = event.target.value as keyof typeof state;
+    dispatch({type: "SELECT_MONTH", payload: +selectedMonthValue});
   };
+
+  useEffect(() => {
+    function setSelectedUsers() {
+      const { selectedMonth } = state;
+      return selectedMonth
+        ? getUsers(selectedMonth)
+        : getUsers();
+    }
+    setSelectedUsers().then(users => {
+      dispatch({type: "SHOW_USERS", payload: users });
+    });
+  });
 
   return (
     <div>
@@ -42,7 +61,7 @@ export default function NativeSelects(): JSX.Element {
         <InputLabel htmlFor="month-native-simple">Month</InputLabel>
         <Select
           native
-          value={state.month}
+          value={state.selectedMonth}
           onChange={handleChange}
           label="month"
           inputProps={{
@@ -50,20 +69,13 @@ export default function NativeSelects(): JSX.Element {
             id: 'month-native-simple',
           }}>
           <option value={0}>None</option>
-          <option value={1}>January</option>
-          <option value={2}>February</option>
-          <option value={3}>March</option>
-          <option value={4}>April</option>
-          <option value={5}>May</option>
-          <option value={6}>June</option>
-          <option value={7}>July</option>
-          <option value={8}>August</option>
-          <option value={9}>September</option>
-          <option value={10}>October</option>
-          <option value={11}>November</option>
-          <option value={12}>December</option>
+
+          { months.map((month, i): JSX.Element => {
+            return (<option key={i} value={i+1}>{month}</option>);
+          }) }
+
         </Select>
       </FormControl>
     </div>
   );
-}
+};
