@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {UserCardProps} from "../../interfaces";
+import {UserCardProps} from "../interfaces";
 
 const useStyles = makeStyles({
   root: {

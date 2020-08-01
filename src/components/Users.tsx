@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
-import { UserCard } from "../UserCard/UserCard";
-import { User } from "../../interfaces";
-import {ApplicationContext} from "../../App";
+import { UserCard } from "./UserCard";
+import { User } from "../interfaces";
+import {ApplicationContext} from "../App";
 
 export const Users: React.FC = () => {
 

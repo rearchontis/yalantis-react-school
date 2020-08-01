@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import { ContextState } from "./interfaces";
 import { reducer, initialState} from "./reducer";
-import { Users } from "./components/Users/Users";
-import { MonthSelect } from "./components/Select/Select";
+import { Users } from "./components/Users";
+import { MonthSelect } from "./components/Select";
 
 export const ApplicationContext = React.createContext({} as ContextState);
 

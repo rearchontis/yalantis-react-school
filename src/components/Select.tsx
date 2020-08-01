@@ -3,8 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { ApplicationContext } from "../../App";
-import { getUsers } from "../../services";
+import { ApplicationContext } from "../App";
+import { getUsers } from "../services";
 
 const months: string[] = [
   'January',
@@ -53,7 +53,9 @@ export const MonthSelect: React.FC = () => {
     setSelectedUsers().then(users => {
       dispatch({type: "SHOW_USERS", payload: users });
     });
-  });
+  }, []);
+
+  console.log('update');
 
   return (
     <div>
