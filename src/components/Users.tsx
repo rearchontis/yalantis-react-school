@@ -1,12 +1,14 @@
-import React, {useContext} from "react";
-import { UserCard } from "./UserCard";
-import { User } from "../interfaces";
-import {ApplicationContext} from "../App";
+import React, { useContext } from 'react';
+import { User } from '../interfaces';
+import { ApplicationContext } from '../App';
+import { UserCard } from './UserCard';
+interface UsersComponentProps {
+  month: number
+}
 
-export const Users: React.FC = () => {
+export const Users: React.FC<UsersComponentProps> = () => {
 
   const { state } = useContext(ApplicationContext);
-  const { users } = {...state};
 
   return (
     <div style={{
@@ -16,7 +18,7 @@ export const Users: React.FC = () => {
       flexWrap: "wrap",
       justifyContent: "center"
     }}>
-      { users.map((user: User) => {
+      { state.users.map((user: User) => {
         const {
           id, firstName, lastName, dob
         } = user;
@@ -25,7 +27,7 @@ export const Users: React.FC = () => {
             key={id}
             firstName={firstName}
             lastName={lastName}
-            month={new Date(dob).getMonth() + 1}
+            month={new Date(dob).getMonth()}
           />
         );
       }) }

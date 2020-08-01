@@ -18,7 +18,7 @@ export const App: React.FC = () => {
         alignItems: "center",
       }}>
         <MonthSelect />
-        <Users />
+        <Users month={state.selectedMonth} />
       </div>
     </ApplicationContext.Provider>
   );

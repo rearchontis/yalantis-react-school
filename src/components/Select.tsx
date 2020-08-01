@@ -3,23 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { ApplicationContext } from "../App";
-import { getUsers } from "../services";
-
-const months: string[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import { ApplicationContext } from '../App';
+import { months, getUsers } from '../services';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,24 +23,19 @@ export const MonthSelect: React.FC = () => {
 
   const {state, dispatch} = useContext(ApplicationContext);
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
+  const handleChange = async (event: React.ChangeEvent<{ value: unknown }>) => {
     const selectedMonthValue = event.target.value as keyof typeof state;
+    const users = await getUsers(+selectedMonthValue);
+
     dispatch({type: "SELECT_MONTH", payload: +selectedMonthValue});
+    dispatch({type: "SHOW_USERS", payload: users});
   };
 
   useEffect(() => {
-    function setSelectedUsers() {
-      const { selectedMonth } = state;
-      return selectedMonth
-        ? getUsers(selectedMonth)
-        : getUsers();
-    }
-    setSelectedUsers().then(users => {
-      dispatch({type: "SHOW_USERS", payload: users });
+    getUsers().then(users => {
+      dispatch({type: "SHOW_USERS", payload: users});
     });
-  }, []);
-
-  console.log('update');
+  }, [dispatch]);
 
   return (
     <div>
@@ -70,7 +50,7 @@ export const MonthSelect: React.FC = () => {
             name: 'month',
             id: 'month-native-simple',
           }}>
-          <option value={0}>None</option>
+          <option value={0}>All users</option>
 
           { months.map((month, i): JSX.Element => {
             return (<option key={i} value={i+1}>{month}</option>);

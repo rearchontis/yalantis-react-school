@@ -4,7 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {UserCardProps} from "../interfaces";
+import { Divider } from '@material-ui/core';
+import { UserCardProps } from "../interfaces";
+import { months } from '../services';
 
 const useStyles = makeStyles({
   root: {
@@ -41,8 +43,9 @@ export const UserCard: React.FC<UserCardProps> = ({
         <Typography className={classes.pos} color="textSecondary">
           {lastName}
         </Typography>
+        <Divider style={{margin: "0 0 5px 0"}} />
         <Typography variant="body2" component="p">
-          {month}
+          Born in {months[month]}
         </Typography>
       </CardContent>
     </Card>

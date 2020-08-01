@@ -1,4 +1,4 @@
-import { DispatchAction, State } from "./interfaces";
+import { DispatchAction, State } from './interfaces';
 
 export const initialState = {
   selectedMonth: 0,
