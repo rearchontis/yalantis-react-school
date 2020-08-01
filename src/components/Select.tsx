@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { ApplicationContext } from '../App';
-import { months, getUsers } from '../services';
+import { months, getUsers, getOptionColorsArray } from '../services';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +35,9 @@ export const MonthSelect: React.FC = () => {
     getUsers().then(users => {
       dispatch({type: "SHOW_USERS", payload: users});
     });
+    getOptionColorsArray().then(colors => {
+      dispatch({type: "SET_OPTION_COLORS", payload: colors});
+    });
   }, [dispatch]);
 
   return (
@@ -53,7 +56,12 @@ export const MonthSelect: React.FC = () => {
           <option value={0}>All users</option>
 
           { months.map((month, i): JSX.Element => {
-            return (<option key={i} value={i+1}>{month}</option>);
+            return (
+              <option 
+                key={i} 
+                value={i+1}
+                style={{background: state.optionsColors[i]}}>{month}</option>
+            );
           }) }
 
         </Select>

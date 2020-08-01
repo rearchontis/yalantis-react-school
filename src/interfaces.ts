@@ -9,11 +9,12 @@ export interface User {
 
 export interface DispatchAction {
     type     : string
-    payload ?: number | User[]
+    payload ?: number | string[] | User[]
 }
 
 export interface State {
     selectedMonth: number
+    optionsColors: string[]
     users : User[]
 }
 
